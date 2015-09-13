@@ -18,18 +18,16 @@ describe('metalsmith-permalinks', function(){
         equal('test/fixtures/no-pattern/expected', 'test/fixtures/no-pattern/build');
         done();
       });
-
   });
 
   it('should replace a pattern', function(done){
     Metalsmith('test/fixtures/pattern')
-      .use(permalinks({ pattern: ':title' }))
+      .use(permalinks({ '*': {pattern: ':title' }}))
       .build(function(err){
         if (err) return done(err);
         equal('test/fixtures/pattern/expected', 'test/fixtures/pattern/build');
         done();
       });
-
   });
 
   it('should accepts a shorthand string', function(done){
@@ -40,7 +38,6 @@ describe('metalsmith-permalinks', function(){
         equal('test/fixtures/shorthand/expected', 'test/fixtures/shorthand/build');
         done();
       });
-
   });
 
   it('should copy relative files to maintain references', function(done){
@@ -56,7 +53,9 @@ describe('metalsmith-permalinks', function(){
   it('should not copy relative files', function(done){
     Metalsmith('test/fixtures/no-relative')
       .use(permalinks({
-        relative: false
+          '*': {
+              relative: false
+          }
       }))
       .build(function(err){
         if (err) return done(err);
@@ -93,21 +92,21 @@ describe('metalsmith-permalinks', function(){
         equal('test/fixtures/date/expected', 'test/fixtures/date/build');
         done();
       });
-
   });
 
   it('should format a date with a custom formatter', function(done){
     Metalsmith('test/fixtures/custom-date')
       .use(permalinks({
-        pattern: ':date',
-        date: 'YYYY/MM'
+          '*': {
+              pattern: ':date',
+              date: 'YYYY/MM'
+          }
       }))
       .build(function(err){
         if (err) return done(err);
         equal('test/fixtures/custom-date/expected', 'test/fixtures/custom-date/build');
         done();
       });
-
   });
 
   it('should replace any backslashes in paths with slashes', function(done){
@@ -123,7 +122,6 @@ describe('metalsmith-permalinks', function(){
       .build(function(err){
         if (err) return done(err);
       });
-
   });
 
   it('should ignore any files with permalink equal to false option', function(done){
